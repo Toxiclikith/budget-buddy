@@ -21,7 +21,6 @@ body {
   display: flex;
   flex-direction: column;
   align-items: center;
-  z-index: 1000;
   padding: 1rem;
   top: 0;
   left: 0;
@@ -75,6 +74,7 @@ main {
   padding: 0.6rem;
   gap: 1rem;
   flex-wrap: wrap;
+  align-items: stretch;
 }
 
 .income-card, .expense-card {
@@ -84,6 +84,10 @@ main {
   box-shadow: 0 0 8px rgba(0,0,0,0.1);
   text-align: center;
   max-width: 300px;
+  max-height: 300px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
 }
 
 .income-card {
