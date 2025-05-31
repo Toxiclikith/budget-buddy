@@ -1,4 +1,3 @@
-/* Reset and base styles */
 * {
   box-sizing: border-box;
   margin: 0;
@@ -14,14 +13,24 @@ body {
   flex-direction: column;
 }
 
-/* Header */
 .app-header {
+  position: fixed;
   background-color: #4a90e2;
   color: #fff;
   padding: 1rem 2rem;
   display: flex;
-  justify-content: space-between;
+  flex-direction: column;
   align-items: center;
+  z-index: 1000;
+  padding: 1rem;
+  top: 0;
+  left: 0;
+  width: 100%;
+}
+
+main {
+  margin-top: 140px;
+  padding: 1rem;
 }
 
 .app-header h1 {
@@ -31,26 +40,39 @@ body {
   gap: 0.5rem;
 }
 
-.month-navigation button {
-  margin: 0 5px;
-  padding: 5px 10px;
+.month-scroll-container {
+  overflow-x: auto;
+  width: 100%;
+  margin-top: 1rem;
+}
+
+.month-scroll {
+  display: flex;
+  overflow-x: auto;
+  white-space: nowrap;
+  gap: 0.5rem;
+  padding: 0.5rem;
+}
+
+.month-item {
+  padding: 0.5rem 1rem;
   background: #fff;
-  border: none;
   color: #4a90e2;
-  font-weight: bold;
   border-radius: 5px;
   cursor: pointer;
-}
-
-.month-navigation span {
+  flex: 0 0 auto;
   font-weight: bold;
 }
 
-/* Summary */
+.month-item.active {
+  background: #2b8a3e;
+  color: #fff;
+}
+
 .summary {
   display: flex;
   justify-content: space-around;
-  padding: 1rem;
+  padding: 0.6rem;
   gap: 1rem;
   flex-wrap: wrap;
 }
@@ -74,7 +96,6 @@ body {
   color: #c0392b;
 }
 
-/* Transactions */
 .transactions {
   flex: 1;
   padding: 1rem 2rem;
@@ -116,7 +137,6 @@ body {
   font-size: 1.2rem;
 }
 
-/* Add Transaction Button */
 #add-transaction-btn {
   position: fixed;
   bottom: 20px;
@@ -131,7 +151,6 @@ body {
   box-shadow: 0 4px 10px rgba(0,0,0,0.2);
 }
 
-/* Modal */
 .modal {
   position: fixed;
   top: 0; left: 0;
@@ -140,6 +159,7 @@ body {
   display: flex;
   align-items: center;
   justify-content: center;
+  z-index: 10;
 }
 
 .modal.hidden {
@@ -147,44 +167,94 @@ body {
 }
 
 .modal-content {
-  background: white;
+  background-color: white;
   padding: 2rem;
-  border-radius: 10px;
+  border-radius: 12px;
   width: 90%;
-  max-width: 500px;
+  max-width: 480px;
+  box-shadow: 0 8px 20px rgba(0,0,0,0.2);
+  transition: background-color 0.3s ease;
 }
 
 .modal-content h2 {
   display: flex;
   align-items: center;
   gap: 0.5rem;
-  margin-bottom: 1rem;
+  margin-bottom: 1.5rem;
+  font-size: 1.4rem;
+  color: #333;
+}
+
+.type-toggle {
+  display: flex;
+  gap: 1rem;
+  margin-bottom: 1.5rem;
+}
+
+.toggle-btn {
+  flex: 1;
+  padding: 0.6rem;
+  border: 2px solid transparent;
+  border-radius: 8px;
+  cursor: pointer;
+  font-weight: bold;
+  font-size: 1rem;
+  transition: all 0.3s;
+}
+
+.toggle-btn.income {
+  background-color: #e0f4e8;
+  color: #2b8a3e;
+}
+
+.toggle-btn.expense {
+  background-color: #fde8e8;
+  color: #c0392b;
+}
+
+.toggle-btn.active {
+  border-color: #555;
 }
 
 .modal-content label {
   display: block;
   margin-top: 1rem;
+  font-weight: 600;
+  color: #555;
 }
 
 .modal-content input,
 .modal-content select {
   width: 100%;
-  padding: 0.5rem;
-  margin-top: 0.5rem;
+  padding: 0.6rem;
+  margin-top: 0.3rem;
+  border: 1px solid #ccc;
+  border-radius: 6px;
+  font-size: 1rem;
+  background-color: #fff;
+  transition: border 0.3s;
+}
+
+.modal-content input:focus,
+.modal-content select:focus {
+  border-color: #4a90e2;
+  outline: none;
 }
 
 .form-actions {
   display: flex;
   justify-content: flex-end;
   gap: 1rem;
-  margin-top: 1.5rem;
+  margin-top: 2rem;
 }
 
 .form-actions button {
-  padding: 0.5rem 1rem;
+  padding: 0.6rem 1.2rem;
   border: none;
-  border-radius: 5px;
+  border-radius: 6px;
   cursor: pointer;
+  font-weight: 600;
+  font-size: 1rem;
 }
 
 #save-btn {
@@ -197,10 +267,113 @@ body {
   color: white;
 }
 
-/* Responsive */
+.modal-content.income-theme {
+  background-color: #eaf8f1;
+}
+
+.modal-content.expense-theme {
+  background-color: #fff0f0;
+}
+
+.modal-content.income-theme input,
+.modal-content.income-theme select {
+  border-color: #b4dfc1;
+  background-color: #f6fffa;
+}
+
+.modal-content.expense-theme input,
+.modal-content.expense-theme select {
+  border-color: #f5c2c2;
+  background-color: #fff7f7;
+}
+
+.modal-content .custom-dropdown {
+  margin-top: 0.3rem;
+}
+
+.edit-controls {
+  display: flex;
+  justify-content: space-between;
+  margin: 1rem 0;
+  gap: 1rem;
+}
+.edit-controls.hidden {
+  display: none;
+}
+
+.custom-dropdown {
+  position: relative;
+  user-select: none;
+}
+
+.selected-category {
+  width: 100%;
+  padding: 0.6rem;
+  margin-top: 0.3rem;
+  border: 1px solid #ccc;
+  border-radius: 6px;
+  font-size: 1rem;
+  background-color: #fff;
+  position: relative;
+  font-weight: 600;
+  cursor: pointer;
+  transition: border 0.3s;
+  padding-right: 2rem;
+}
+
+.selected-category::after {
+  content: "▼";
+  position: absolute;
+  right: 0.75rem;
+  top: 50%;
+  transform: translateY(-50%);
+  font-size: 0.8rem;
+  color: #555;
+  pointer-events: none;
+}
+
+#selected-category {
+  font-weight: bold;
+}
+
+.custom-dropdown.active .selected-category,
+.selected-category:focus {
+  border-color: #4a90e2;
+  outline: none;
+}
+
+.dropdown-list {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  border: 1px solid #ccc;
+  border-top: none;
+  max-height: 150px;
+  overflow-y: auto;
+  position: absolute;
+  width: 100%;
+  background-color: white;
+  display: none;
+  z-index: 10;
+}
+
+.dropdown-list.show {
+  display: block;
+}
+
+.dropdown-list li {
+  padding: 8px;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.dropdown-list li:hover {
+  background-color: #f0f0f0;
+}
+
 @media (max-width: 600px) {
   .summary {
-    flex-direction: column;
     align-items: center;
   }
 

@@ -1,20 +1,19 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>BudgetBuddy</title>
   <link rel="stylesheet" href="styles.css" />
-  <!-- Bootstrap Icons CDN -->
   <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css" rel="stylesheet">
 </head>
+
 <body>
   <header class="app-header">
     <h1><i class="bi bi-wallet2"></i> BudgetBuddy</h1>
-    <div class="month-navigation">
-      <button id="prev-month">&laquo; Prev</button>
-      <span id="current-month">May 2025</span>
-      <button id="next-month">Next &raquo;</button>
+    <div class="month-scroll-container">
+      <div id="month-scroll" class="month-scroll"></div>
     </div>
   </header>
 
@@ -32,39 +31,38 @@
 
     <section class="transactions">
       <ul id="transaction-list">
-        <!-- Transaction items will be appended here -->
       </ul>
     </section>
   </main>
 
   <button id="add-transaction-btn"><i class="bi bi-plus-lg"></i></button>
 
-  <!-- Modal for Add/Edit Transaction -->
   <div id="transaction-modal" class="modal hidden">
-    <form id="transaction-form" class="modal-content">
+    <form id="transaction-form" class="modal-content income-theme">
       <h2 id="modal-title"><i class="bi bi-pencil-square"></i> Add Transaction</h2>
 
-      <label for="transaction-type">Type:</label>
-      <select id="transaction-type" required>
-        <option value="income">Income</option>
-        <option value="expense">Expense</option>
-      </select>
+      <div class="type-toggle">
+        <button type="button" id="income-btn" class="toggle-btn income">Income</button>
+        <button type="button" id="expense-btn" class="toggle-btn expense">Expense</button>
+      </div>
 
       <label for="currency">Currency:</label>
       <select id="currency" required>
         <option value="INR">₹ INR</option>
         <option value="USD">$ USD</option>
         <option value="EUR">€ EUR</option>
-        <!-- Add more currencies as needed -->
       </select>
 
       <label for="amount">Amount:</label>
       <input type="number" id="amount" required />
 
       <label for="category">Category:</label>
-      <select id="category" required>
-        <!-- Dynamically populated based on transaction type -->
-      </select>
+      <div class="custom-dropdown" id="category-dropdown">
+        <div class="selected-category" id="selected-category">Select Category</div>
+        <ul class="dropdown-list" id="dropdown-list"></ul>
+      </div>
+      <input type="hidden" id="category" required />
+
 
       <label for="date">Date:</label>
       <input type="date" id="date" required />
@@ -75,10 +73,13 @@
       <div class="form-actions">
         <button type="submit" id="save-btn">Save</button>
         <button type="button" id="cancel-btn">Cancel</button>
+        <button type="button" id="delete-btn"
+          style="display:none; background-color: #e74c3c; color: white;">Delete</button>
       </div>
     </form>
   </div>
 
   <script src="script.js"></script>
 </body>
+
 </html>
